@@ -70,15 +70,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         } else {
             LOGGER.error("Can't initialize Alina bot. Please, provide botName and botToken!");
         }
-
-        SendMessage message = new SendMessage()
-                .setChatId(363314646L)
-                .setText("Я жив!");
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            LOGGER.error("Can't send init message!", e);
-        }
     }
 
     @PreDestroy

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.AbsSender;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 import ru.alenechka.alinabot.handler.message.MessageHandler;
 
 import java.util.List;
@@ -16,9 +17,10 @@ public class DefaultMessageHandlerExecutor implements MessageHandlerExecutor {
 
     // private final List<CallbackHandler> callbackHandlers;
 
-    // private final List<MessageHandler> messageHandlers;
+    private final List<MessageHandler> messageHandlers;
 
-    public DefaultMessageHandlerExecutor() {
+    public DefaultMessageHandlerExecutor(final List<MessageHandler> messageHandlers) {
+        this.messageHandlers = messageHandlers;
     }
 
     @Override
@@ -31,17 +33,18 @@ public class DefaultMessageHandlerExecutor implements MessageHandlerExecutor {
 //                        return;
 //                    }
 //                }
-//            } else if (update.hasMessage()) {
-//                for (MessageHandler messageHandler : messageHandlers) {
-//                    if (messageHandler.isNeedToHandle(update.getMessage())) {
-//                        messageHandler.execute(update.getMessage(), sender);
-//                        return;
-//                    }
-//                }
-//            }
-//        } catch (TelegramApiException e) {
-//            LOGGER.error("Can't handle update", e);
-//        }
-
+//            } else
+        try {
+             if (update.hasMessage()) {
+                 for (MessageHandler messageHandler : messageHandlers) {
+                     if (messageHandler.isNeedToHandle(update.getMessage())) {
+                         messageHandler.execute(update.getMessage(), sender);
+                         return;
+                     }
+                 }
+             }
+        } catch (TelegramApiException e) {
+            LOGGER.error("Can't handle update", e);
+        }
     }
 }
