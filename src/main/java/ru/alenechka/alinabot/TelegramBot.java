@@ -13,6 +13,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.generics.BotSession;
 import ru.alenechka.alinabot.handler.MessageHandlerExecutor;
+import ru.alenechka.alinabot.word2vec.Word2VecEngine;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -63,10 +64,15 @@ public class TelegramBot extends TelegramLongPollingBot {
             TelegramBotsApi botsApi = new TelegramBotsApi();
             try {
                 session = botsApi.registerBot(this);
+
+                // Init word2vec model
+                new Word2VecEngine("classpath:word2vec/training_data/training_data_strange_dialog.txt",
+                        Word2VecEngine.ModelMode.INIT);
+
+                LOGGER.info("Alina bot initialized");
             } catch (Exception e) {
                 LOGGER.error("Can't initialize Alina bot", e);
             }
-            LOGGER.info("Alina bot initialized");
         } else {
             LOGGER.error("Can't initialize Alina bot. Please, provide botName and botToken!");
         }
