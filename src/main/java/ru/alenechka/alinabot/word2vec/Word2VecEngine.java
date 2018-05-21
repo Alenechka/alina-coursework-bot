@@ -15,13 +15,12 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 
 public class Word2VecEngine {
     private static Logger log = LoggerFactory.getLogger(Word2VecEngine.class);
 
-    private static String MODEL_FILE_PATH = "app/src/main/resources/word2vec/model.txt";
+    private static String MODEL_FILE_PATH = "/app/src/main/resources/word2vec/model.txt";
 
     public enum ModelMode {
         LOAD, // Load trained model from file
@@ -81,11 +80,21 @@ public class Word2VecEngine {
         return model.wordsNearest(keyWord, n);
     }
 
-//    public String getNearestWordFromText(String keyWord, int n) {
-//        log.info("Finding '" + n + "' closest words for key '" + keyWord + "' ...");
-//
-//
-//
-//        Collection<String> nearestWords = model.wordsNearest(Arrays.asList());
-//    }
+    public String getNearestWordFromText(String message) {
+        log.info("Finding the closest words for message '" + message + "' ...");
+
+        String strippedMessage = new CommonPreprocessor().preProcess(message).replace("\n", " ");
+        ArrayList<String> wordsFromMessage = new ArrayList<>();
+
+        wordsFromMessage.addAll(Arrays.asList(strippedMessage.split(" ")));
+
+        LinkedList<String> nearestWords =
+                (LinkedList<String>) model.wordsNearest(wordsFromMessage, Collections.emptyList(), 1);
+
+        if (!nearestWords.isEmpty()) {
+            return nearestWords.get(0);
+        }
+
+        return "";
+    }
 }
