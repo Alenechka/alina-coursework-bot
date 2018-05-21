@@ -9,14 +9,18 @@ import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFac
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collection;
 
 public class Word2VecEngine {
     private static Logger log = LoggerFactory.getLogger(Word2VecEngine.class);
 
-    private static String MODEL_FILE_PATH = "classpath:word2vec/models/model.txt";
+    private static String MODEL_FILE_PATH = "/model.txt";
 
     public enum ModelMode {
         LOAD, // Load trained model from file
@@ -31,13 +35,14 @@ public class Word2VecEngine {
      * @param filePath - absolute path to data set file or file with saved model.
      * @param mode - loading mode.
      */
-    public Word2VecEngine(String filePath, ModelMode mode) throws FileNotFoundException {
+    public Word2VecEngine(String filePath, ModelMode mode) throws IOException {
         if (mode.equals(ModelMode.INIT)) {
             log.info("'INIT' mode is selected." +
                     "Load and vectorize sentences from file: " + filePath);
 
             // Strip white space before and after for each line
-            SentenceIterator iter = new BasicLineIterator(filePath);
+            File dataFile = ResourceUtils.getFile(filePath);
+            SentenceIterator iter = new BasicLineIterator(dataFile.getAbsolutePath());
 
             // Split on white spaces in the line to get words
             TokenizerFactory t = new DefaultTokenizerFactory();
@@ -62,12 +67,14 @@ public class Word2VecEngine {
             model.fit();
 
             log.info("Save model to file " +"...");
-            WordVectorSerializer.writeWord2VecModel(model, MODEL_FILE_PATH);
+            File folder = new ClassPathResource("word2vec/models").getFile();
+            WordVectorSerializer.writeWord2VecModel(model, folder.getAbsolutePath() + MODEL_FILE_PATH);
         } else {
             log.info("'LOAD' mode is selected." +
                     "Load model from file: " + filePath);
 
-            model = WordVectorSerializer.readWord2VecModel(filePath);
+            File dataFile = ResourceUtils.getFile(filePath);
+            model = WordVectorSerializer.readWord2VecModel(dataFile.getAbsolutePath());
         }
     }
 
