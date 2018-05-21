@@ -67,7 +67,7 @@ public class Word2VecEngine {
             model.fit();
 
             log.info("Save model to file " +"...");
-            File folder = new ClassPathResource("word2vec/models").getFile();
+            File folder = new ClassPathResource("word2vec").getFile();
             WordVectorSerializer.writeWord2VecModel(model, folder.getAbsolutePath() + MODEL_FILE_PATH);
         } else {
             log.info("'LOAD' mode is selected." +
