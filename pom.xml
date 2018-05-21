@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<nd4j.backend>nd4j-native-platform</nd4j.backend>
         <nd4j.version>1.0.0-alpha</nd4j.version>
 	</properties>
 
@@ -72,14 +73,8 @@
 
 		<dependency>
 			<groupId>org.nd4j</groupId>
-			<artifactId>nd4j-x86</artifactId>
-			<version>0.4-rc3.8</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.nd4j</groupId>
-			<artifactId>nd4j-api</artifactId>
-			<version>1.0.0-beta</version>
+			<artifactId>${nd4j.backend}</artifactId>
+			<version>${nd4j.version}</version>
 		</dependency>
 	</dependencies>
 
