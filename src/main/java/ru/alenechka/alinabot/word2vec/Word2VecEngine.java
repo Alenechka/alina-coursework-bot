@@ -15,12 +15,13 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 
 public class Word2VecEngine {
     private static Logger log = LoggerFactory.getLogger(Word2VecEngine.class);
 
-    private static String MODEL_FILE_PATH = "~/src/main/resources/word2vec/model.txt";
+    private static String MODEL_FILE_PATH = "app/src/main/resources/word2vec/model.txt";
 
     public enum ModelMode {
         LOAD, // Load trained model from file
@@ -79,4 +80,12 @@ public class Word2VecEngine {
 
         return model.wordsNearest(keyWord, n);
     }
+
+//    public String getNearestWordFromText(String keyWord, int n) {
+//        log.info("Finding '" + n + "' closest words for key '" + keyWord + "' ...");
+//
+//
+//
+//        Collection<String> nearestWords = model.wordsNearest(Arrays.asList());
+//    }
 }

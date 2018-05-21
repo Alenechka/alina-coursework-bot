@@ -66,7 +66,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 session = botsApi.registerBot(this);
 
                 // Init word2vec model
-                new Word2VecEngine("~/src/main/resources/word2vec/training_data_strange_dialog.txt",
+                new Word2VecEngine("app/src/main/resources/word2vec/training_data_strange_dialog.txt",
                         Word2VecEngine.ModelMode.INIT);
 
                 LOGGER.info("Alina bot initialized");
