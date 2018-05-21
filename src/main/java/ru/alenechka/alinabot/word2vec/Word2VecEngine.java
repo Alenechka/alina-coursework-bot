@@ -20,7 +20,7 @@ import java.util.Collection;
 public class Word2VecEngine {
     private static Logger log = LoggerFactory.getLogger(Word2VecEngine.class);
 
-    private static String MODEL_FILE_PATH = "/model.txt";
+    private static String MODEL_FILE_PATH = "~/src/main/resources/word2vec/model.txt";
 
     public enum ModelMode {
         LOAD, // Load trained model from file
@@ -41,8 +41,7 @@ public class Word2VecEngine {
                     "Load and vectorize sentences from file: " + filePath);
 
             // Strip white space before and after for each line
-            File dataFile = ResourceUtils.getFile(filePath);
-            SentenceIterator iter = new BasicLineIterator(dataFile.getAbsolutePath());
+            SentenceIterator iter = new BasicLineIterator(filePath);
 
             // Split on white spaces in the line to get words
             TokenizerFactory t = new DefaultTokenizerFactory();
@@ -67,14 +66,11 @@ public class Word2VecEngine {
             model.fit();
 
             log.info("Save model to file " +"...");
-            File folder = new ClassPathResource("word2vec").getFile();
-            WordVectorSerializer.writeWord2VecModel(model, folder.getAbsolutePath() + MODEL_FILE_PATH);
+            WordVectorSerializer.writeWord2VecModel(model, MODEL_FILE_PATH);
         } else {
             log.info("'LOAD' mode is selected." +
                     "Load model from file: " + filePath);
-
-            File dataFile = ResourceUtils.getFile(filePath);
-            model = WordVectorSerializer.readWord2VecModel(dataFile.getAbsolutePath());
+            model = WordVectorSerializer.readWord2VecModel(filePath);
         }
     }
 

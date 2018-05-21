@@ -17,3 +17,6 @@ credential:
     apikey: ${GOOGLE_API_KEY:}
 bot:
   url: ${SELF_URL:http://localhost:8080/}
+http:
+  proxy:
+    url: ${PROXY_URL:http://igor:RKN_shall_not_pass@javazen.ru:8090}
