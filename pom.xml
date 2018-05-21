@@ -78,8 +78,30 @@
 
 		<dependency>
 			<groupId>org.nd4j</groupId>
-			<artifactId>nd4j-api</artifactId>
-			<version>1.0.0-beta</version>
+			<artifactId>nd4j-native-platform</artifactId>
+			<version>${nd4j.version}</version>
+			<classifier>linux-x86_64-avx2</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.nd4j</groupId>
+			<artifactId>nd4j-native-platform</artifactId>
+			<version>${nd4j.version}</version>
+			<classifier>linux-ppc64le-avx2</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.nd4j</groupId>
+			<artifactId>nd4j-native-platform</artifactId>
+			<version>${nd4j.version}</version>
+			<classifier>linux-x86_64-avx512</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.nd4j</groupId>
+			<artifactId>nd4j-native-platform</artifactId>
+			<version>${nd4j.version}</version>
+			<classifier>linux-ppc64le-avx512</classifier>
 		</dependency>
 	</dependencies>
 
